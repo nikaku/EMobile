@@ -25,12 +25,17 @@ namespace EMobile.Controllers
         public async Task<IActionResult> GetImageAsync(string imageName)
         {
             var streamX = new MemoryStream();
-            await _minioClient
-                ._minioClient
-                .GetObjectAsync("uploads", imageName, (stream) =>
-                 {
-                     stream.CopyTo(streamX);
-                 });
+            try
+            {
+                await _minioClient._minioClient
+                   .GetObjectAsync("uploads", imageName, (stream) =>{
+                        stream.CopyTo(streamX);
+                    });
+            }
+            catch (Exception e)
+            {
+               return UnprocessableEntity(e.Message);
+            }
 
             byte[] byteArray = streamX.ToArray();
             return File(byteArray, "image/jpeg");
