@@ -8,7 +8,7 @@ using System.Text;
 
 namespace EMobile.BL.Implementations
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private DataContext _dataContext;
         public UnitOfWork(DataContext dataContext)
